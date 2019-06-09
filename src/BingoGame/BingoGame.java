@@ -1,0 +1,379 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package BingoGame;
+
+import java.awt.event.KeyEvent;
+
+/**
+ *
+ * @author Harsh
+ */
+public class BingoGame extends javax.swing.JFrame {
+
+    /**
+     * Creates new form BingoGame
+     */
+    String p1name,p2name;
+    private int a[][]=new int[5][5];
+    private int b[][]=new int[5][5];
+    private java.util.Random r=new java.util.Random();
+    
+    public BingoGame() {
+        initComponents();
+        ta1.setEditable(false);
+        ta2.setEditable(false);
+        cancelField.setEditable(false);
+        
+        //lable.setText("Welcome!"+"  Enter names");
+        fillMat(a);
+        fillMat(b);
+        display();
+        if((tf1.getText()!=null) & (tf2.getText()!=null))
+          gameStart();
+    }
+    
+    private int getRandom(){
+        return r.nextInt(26);
+    }
+    private boolean isPresent(int mat[][],int ele){
+        for(int i=0;i<5;i++)
+            for(int j=0;j<5;j++)
+                if(mat[i][j]==ele)
+                    return true;
+        return false;
+    }
+    private void fillMat(int X[][]){
+        int element,i,j;
+        for(i=0;i<5;i++)
+            for(j=0;j<5;j++){
+                element=getRandom();
+                while(isPresent(X,element))
+                    element=getRandom();
+                X[i][j]=element;
+            }
+                
+    }
+    private void display(){
+        ta1.setText(null); 
+        ta1.setText("\n");
+        ta2.setText(null); 
+        ta2.setText("\n");
+        for(int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
+                if(a[i][j]<10 & a[i][j]!=0)
+                    ta1.append("0"+a[i][j]);
+                else
+                    ta1.append(String.valueOf(a[i][j]));
+                if(b[i][j]<10 & b[i][j]!=0)
+                    ta2.append("0"+b[i][j]);
+                else
+                    ta2.append(String.valueOf(b[i][j]));
+                if(j!=4){
+                    ta1.append("   ");
+                    ta2.append("   ");
+                    if(a[i][j]==0)
+                        ta1.append(" ");
+                    if(b[i][j]==0)
+                        ta2.append(" ");
+                }
+            }
+            ta1.append("\n");
+            ta2.append("\n");
+        }
+           
+    }
+    private void gameStart(){
+        lable.setText("Game Begins!");
+        for(int i=1;i<=625;i++){
+            cancelField.setText(null);
+            if(i%2!=0){
+                lable.setText("player 1"+"'s choice");
+                cancelField.setEditable(true);
+                
+            }
+            else{
+                lable.setText("player 2"+"'s choice");
+                cancelField.setEditable(true);
+                
+            }
+        isWinner();
+        }
+    }
+    private void getFromField(){
+        
+}
+    private void remov(int ele){
+        for(int i=0;i<5;i++)
+            for(int j=0;j<5;j++){
+                if(a[i][j]==ele)
+                    a[i][j]=0;
+                if(b[i][j]==ele)
+                    b[i][j]=0;
+            }
+        display();
+        isWinner();
+        cancelField.setText(null);
+        cancelField.setEditable(true);
+    }
+    private void rowFull(int row){
+        int ar=0,br=0,i;
+        for(i=0;i<5;i++){
+            if(a[row][i]==0)
+                ar++;
+            if(b[row][i]==0)
+                br++;
+        }
+        if(ar==5)
+            bingooA++;
+        if(br==5)
+            bingooB++;
+    }
+    private void colFull(int col){
+        int ac=0,bc=0,i;
+        for(i=0;i<5;i++){
+            if(a[i][col]==0)
+                ac++;
+            if(b[i][col]==0)
+                bc++;
+        }
+        if(ac==5)
+            bingooA++;
+        if(bc==5)
+            bingooB++;
+    }
+    private void digFull(){
+        int ad=0,bd=0,i;
+        for(i=0;i<5;i++){
+            if(a[i][i]==0)
+                ad++;
+            if(b[i][i]==0)
+                bd++;
+        }
+        if(ad==5)
+            bingooA++;
+        if(bd==5)
+            bingooB++;
+        
+    }
+    private void isWinner(){
+        int i,j;
+        bingooA=0;
+        bingooB=0;
+        for(i=0;i<5;i++)
+            rowFull(i);
+        for(j=0;j<5;j++)    
+            colFull(j);
+        
+        digFull();
+        tf1.setText(String.valueOf(bingooA));
+        tf2.setText(String.valueOf(bingooB));
+        if(bingooA>=5){
+            ta1.setText("You Win!");
+            ta2.setText("Better luck next time");
+        }
+        else if(bingooB>=5){
+            ta2.setText("You Win!");
+            ta1.setText("Better luck next time");
+        }
+        
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ta1 = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ta2 = new javax.swing.JTextArea();
+        tf1 = new javax.swing.JTextField();
+        tf2 = new javax.swing.JTextField();
+        b1 = new javax.swing.JButton();
+        lable = new javax.swing.JLabel();
+        p1Status = new javax.swing.JTextField();
+        p2Status = new javax.swing.JTextField();
+        cancelField = new javax.swing.JTextField();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        ta1.setColumns(20);
+        ta1.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        ta1.setRows(5);
+        ta1.setTabSize(5);
+        ta1.setText("\n00   00   00   00   00\n00   00   00   00   00\n00   00   00   00   00\n00   00   00   00   00\n00   00   00   00   00\n");
+        ta1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane1.setViewportView(ta1);
+
+        ta2.setColumns(20);
+        ta2.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        ta2.setRows(5);
+        ta2.setTabSize(5);
+        ta2.setText("\n00   00   00   00   00\n00   00   00   00   00\n00   00   00   00   00\n00   00   00   00   00\n00   00   00   00   00\n");
+        ta2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane2.setViewportView(ta2);
+
+        tf1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        tf2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        b1.setText("Set Names");
+        b1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b1ActionPerformed(evt);
+            }
+        });
+
+        lable.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lable.setText("Welcome!");
+
+        cancelField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cancelFieldKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(82, 82, 82)
+                        .addComponent(b1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(81, 81, 81)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tf2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(117, 117, 117)
+                                .addComponent(p2Status, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(156, 156, 156)
+                            .addComponent(p1Status, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(152, 152, 152)
+                            .addComponent(cancelField, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(363, 363, 363)
+                            .addComponent(lable, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(38, 38, 38))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(98, 98, 98)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(lable, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(b1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(p2Status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(p1Status, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                            .addComponent(cancelField))
+                        .addGap(160, 160, 160))))
+        );
+
+        lable.getAccessibleContext().setAccessibleName("");
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void b1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b1ActionPerformed
+        p1name=tf1.getText();
+        tf1.setText(p1name + "'s Matrix");
+        tf1.setEditable(false);
+        p2name=tf2.getText();
+        tf2.setText(p2name+"'s Matrix");
+        tf2.setEditable(false);
+        lable.setText("GOT NAMES!");
+    }//GEN-LAST:event_b1ActionPerformed
+
+    private void cancelFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cancelFieldKeyPressed
+        
+        if(evt.getKeyCode()==evt.VK_ENTER){
+            cancelField.setEditable(false);
+            remov(Integer.parseInt(cancelField.getText()));
+        }
+    }//GEN-LAST:event_cancelFieldKeyPressed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(BingoGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(BingoGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(BingoGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(BingoGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new BingoGame().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton b1;
+    private javax.swing.JTextField cancelField;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lable;
+    private javax.swing.JTextField p1Status;
+    private javax.swing.JTextField p2Status;
+    private javax.swing.JTextArea ta1;
+    private javax.swing.JTextArea ta2;
+    private javax.swing.JTextField tf1;
+    private javax.swing.JTextField tf2;
+    // End of variables declaration//GEN-END:variables
+    private int bingooA;
+    private int bingooB;
+}
